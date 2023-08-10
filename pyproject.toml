@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wakeybaby"
+version = "0.0.1"
+authors = [
+  { name="Chris Havlin", email="chris.havlin@gmail.com" },
+]
+description="wake window calculations"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies=['pandas', 'matplotlib', 'numpy']
+
+
+[project.urls]
+"Homepage" = "https://github.com/chrishavlin/wakeybaby"
+
+[project.optional-dependencies]
+dev = ["pytest", "pre-commit"]
