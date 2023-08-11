@@ -28,12 +28,21 @@ class OnDiskData:
     def _pre_cleaning(self):
         pass
 
-    def wake_window(self, min_nap_sep_mins=20, day_start_hr=7, day_end_hr=19):
+    def all_wake_windows(self) -> pd.DataFrame:
         df = self.df[self.df[self.entry_type] == self.sleep_name].copy(deep=True)
         df = df.sort_values(by=self.t0).reset_index()
-        # dt = pd.to_timedelta(min_nap_sep_mins, unit="m")
-
         df["time_awake"] = df[self.t0] - df[self.t1].shift(1)
+        return df
+
+    def wake_window(
+        self, min_nap_sep_mins=20, day_start_hr=7, day_end_hr=19
+    ) -> pd.DataFrame:
+        df = self.all_wake_windows()
+        # limit by start/end of "daytime"
+        df = df[df[self.t0].dt.hour >= day_start_hr]
+        df = df[df[self.t0].dt.hour < day_end_hr]
+
+        # combine any sleep periods where wake window <= min_nap_sep_mins
         return df
 
 
